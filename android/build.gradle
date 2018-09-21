@@ -1,0 +1,52 @@
+group 'com.github.flutterupush'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 16
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //设置支持的SO库架构
+            //AS调试的时候，使用的是JIT编译模式，需要点击运行下拉菜单中的Edit Configuration...，增加一个参数：--target-platform android-arm，强行指定armeabi-v7a，否则是不能启动的。
+            //flutter build apk时，由于是AOT版本，所以肯定是armeabi-v7a
+            abiFilters 'armeabi-v7a'//,'armeabi','arm64-v8a'
+        }
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+     dependencies {
+         implementation 'com.umeng.sdk:common:latest.integration'
+         implementation 'com.umeng.sdk:utdid:latest.integration'
+         implementation 'com.umeng.sdk:push:latest.integration'
+         implementation 'com.umeng.sdk:push-xiaomi:latest.integration'
+         implementation 'com.umeng.sdk:push-huawei:latest.integration'
+         implementation 'com.umeng.sdk:push-meizu:latest.integration'
+         implementation 'com.google.code.gson:gson:latest.integration'
+         implementation 'com.android.support:support-v4:27.1.1'
+    }
+}
